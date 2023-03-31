@@ -55,8 +55,8 @@ export default function Home() {
         </div>
         <div className='mt-14'>
           <form onSubmit={handleSubmit} className='flex justify-center'>
-            <div className='relative'>
-            <input value={word} onChange={(e) => {setWord(e.target.value); setError(false)}} type="text" className='placeholder-gray-400 font-bold text-black/70 text-xl border rounded-xl py-4 px-72 bg-gray-100 focus:border-purple-600 focus:outline-none' placeholder='Search for a word..'></input>
+            <div className='relative w-[75%]'>
+            <input value={word} onChange={(e) => {setWord(e.target.value); setError(false)}} type="text" className=' placeholder-gray-400 font-bold text-black/70 text-xl border rounded-xl py-4 pl-8  w-full bg-gray-100 focus:border-purple-600 focus:outline-none' placeholder='Search for a word..'></input>
               <span className='absolute top-0 bottom-0 right-0 flex items-center pr-4'>
                 <AiOutlineSearch color={'#9333EA'} size={23} className='text-gray-400' />
               </span>
