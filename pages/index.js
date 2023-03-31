@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { BsMoon } from 'react-icons/bs'
+import { BsSun } from 'react-icons/bs'
 import { Switch } from '@chakra-ui/react'
 import { useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
@@ -13,8 +14,8 @@ import { useTheme } from 'next-themes';
 
 export default function Home() {
 
-  const { theme, setTheme } = useTheme();
-  const {check, setCheck} = useState(false);
+  const { theme, setTheme } = useTheme('light');
+  const [check, setCheck] = useState(false);
   const [word, setWord] = useState('');
   const [data, setData] = useState([]);
   const [error, setError] = useState({type: 0,error: false});
@@ -57,9 +58,9 @@ export default function Home() {
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" width="34" height="38" viewBox="0 0 34 38"><g fill="none" fillRule="evenodd" stroke="#838383" strokeLinecap="round" strokeWidth="1.5"><path d="M1 33V5a4 4 0 0 1 4-4h26.8A1.2 1.2 0 0 1 33 2.2v26.228M5 29h28M5 37h28"></path><path strokeLinejoin="round" d="M5 37a4 4 0 1 1 0-8"></path><path d="M11 9h12"></path></g></svg>
         </div>
-        <div className='flex gap-6'>
-            <Switch colorScheme='purple' size='lg'  onChange={() => {setTheme(theme === 'dark' ? 'light' : 'dark'); }}></Switch>
-          <BsMoon  className="text-gray-500" size={28}/>
+        <div className='flex gap-6 cursor'>
+            <Switch colorScheme='purple' size='lg'  onChange={() => {setTheme(theme === 'dark' ? 'light' : 'dark'); setCheck(!check)}}></Switch>
+          {!check ? <BsMoon  className="text-gray-500" size={28}/> : <BsSun className="text-gray-500" size={30}/>}
         </div>
         </div>
         <div className='mt-14'>
