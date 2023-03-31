@@ -11,6 +11,7 @@ import Content from '../components/content'
 import Nodefinition from '../components/nodefinition'
 import Definition from '../components/definition'
 import { useTheme } from 'next-themes';
+import { useToast } from "@chakra-ui/react";
 
 export default function Home() {
 
@@ -19,16 +20,26 @@ export default function Home() {
   const [word, setWord] = useState('');
   const [data, setData] = useState([]);
   const [error, setError] = useState({type: 0,error: false});
+  const toast = useToast();
 
  
-
-
+  
   const handleSubmit = async (e) => {
     try
     {
       e.preventDefault();
       if (word === '')
+      {
+        toast({
+          title: "You can't search an empty String",
+          description: "Please insert a word to search.",
+          status: "error",
+          duration: 3300,
+          isClosable: true,
+          position: 'bottom'
+        });
         return;
+      }
       setWord('');
       setError({ type: 0, error: false })
       const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
@@ -37,7 +48,18 @@ export default function Home() {
     catch(e)
     {
       if (e.response.status == 404)
+      {
         setError({type: 404, error: true});
+        toast({
+          title: "Word not found",
+          description: "Please insert a valid word to search.",
+          status: "error",
+          duration: 3300,
+          isClosable: true,
+          position: 'bottom'
+          
+        });
+      }
       else
         setError({ type: 0, error: true });
       console.log(e.response.status);
@@ -76,6 +98,7 @@ export default function Home() {
         </div>
         
         {error.type === 404 && error.error ? <Nodefinition word={word}/> : <Definition data={data} />}
+        
        
         {/*<Definition data={data}/>*/}
         

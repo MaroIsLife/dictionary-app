@@ -21,3 +21,9 @@ a {
   text-decoration: none;
 }
 
+
+::selection
+{
+  background-color: #A955F7;
+  color: white;
+}

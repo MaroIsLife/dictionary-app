@@ -19,7 +19,7 @@ const Content = ({data, index, length}) =>
 		<>
 		<section className="mx-20">
 		<div className='flex justify-between'>
-		<div>
+		<div className='flex flex-wrap'>
 		<span className="text-6xl font-bold">{data.word}</span>
 		<span className='ml-4 py-5 text-lg'>{index + 1} of {length}</span>
 		</div>
