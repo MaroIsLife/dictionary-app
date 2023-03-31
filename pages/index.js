@@ -29,7 +29,7 @@ export default function Home() {
       e.preventDefault();
       if (word === '')
         return;
-      //setWord('');
+      setWord('');
       setError({ type: 0, error: false })
       const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
       setData(response.data);
