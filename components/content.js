@@ -6,8 +6,11 @@ const Content = ({data, index, length}) =>
 
 	const playAudio = () =>
 	{
-		const audio = new Audio(data.phonetics[0].audio);
-		audio.play();
+		if (data.phonetics[0])
+		{
+			const audio = new Audio(data.phonetics[0].audio);
+			audio.play();
+		}
 	}
 
 	if (!data)

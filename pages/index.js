@@ -7,34 +7,41 @@ import { AiOutlineSearch } from 'react-icons/ai'
 import axios from 'axios'
 import { useEffect } from 'react'
 import Content from '../components/content'
+import Nodefinition from '../components/nodefinition'
+import Definition from '../components/definition'
+import { useTheme } from 'next-themes';
 
 export default function Home() {
 
-  const [darkMode, setDarkMode] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const {check, setCheck} = useState(false);
   const [word, setWord] = useState('');
   const [data, setData] = useState([]);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState({type: 0,error: false});
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    
-  };
+ 
+
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     try
     {
+      e.preventDefault();
+      if (word === '')
+        return;
+      //setWord('');
+      setError({ type: 0, error: false })
       const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
       setData(response.data);
     }
     catch(e)
     {
-      setError(true);
-      console.log(e);
+      if (e.response.status == 404)
+        setError({type: 404, error: true});
+      else
+        setError({ type: 0, error: true });
+      console.log(e.response.status);
     }
   }
-
-
 
 
   return (
@@ -51,27 +58,26 @@ export default function Home() {
             <svg xmlns="http://www.w3.org/2000/svg" width="34" height="38" viewBox="0 0 34 38"><g fill="none" fillRule="evenodd" stroke="#838383" strokeLinecap="round" strokeWidth="1.5"><path d="M1 33V5a4 4 0 0 1 4-4h26.8A1.2 1.2 0 0 1 33 2.2v26.228M5 29h28M5 37h28"></path><path strokeLinejoin="round" d="M5 37a4 4 0 1 1 0-8"></path><path d="M11 9h12"></path></g></svg>
         </div>
         <div className='flex gap-6'>
-          <Switch colorScheme='purple' size='lg' isChecked={darkMode} onChange={toggleDarkMode}></Switch>
+            <Switch colorScheme='purple' size='lg'  onChange={() => {setTheme(theme === 'dark' ? 'light' : 'dark'); }}></Switch>
           <BsMoon  className="text-gray-500" size={28}/>
         </div>
         </div>
         <div className='mt-14'>
-          <form onSubmit={handleSubmit} className='flex justify-center'>
+          <form onSubmit={handleSubmit}  className='flex justify-center'>
             <div className='relative w-[85%]'>
-            <input value={word} onChange={(e) => {setWord(e.target.value); setError(false)}} type="text" className=' placeholder-gray-400 font-bold text-black/70 text-xl border rounded-xl py-4 pl-8  w-full bg-gray-100 focus:border-purple-600 focus:outline-none' placeholder='Search for a word..'></input>
+              <input value={word} onChange={(e) => { setWord(e.target.value); }} type="text" className=' placeholder-gray-400 font-bold text-black/70 text-xl border rounded-xl py-4 pl-8  w-full bg-gray-100 focus:border-purple-600 focus:outline-none' placeholder='Search for a word..'></input>
               <span className='absolute top-0 bottom-0 right-0 flex items-center pr-4'>
                 <AiOutlineSearch color={'#9333EA'} size={23} className='text-gray-400' />
               </span>
             </div>
+
         </form>
         </div>
-        <section className='container mx-auto pt-8'>
-          {data.map(((item, index) => {
-            return (
-              <Content data={item} index={index} length={data.length}/>
-            )
-          }))}
-        </section>
+        
+        {error.type === 404 && error.error ? <Nodefinition word={word}/> : <Definition data={data} />}
+       
+        {/*<Definition data={data}/>*/}
+        
       </main>
     </>
   )
