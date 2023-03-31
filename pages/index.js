@@ -12,7 +12,7 @@ export default function Home() {
 
   const [darkMode, setDarkMode] = useState(false);
   const [word, setWord] = useState('');
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
   const [error, setError] = useState(false);
 
   const toggleDarkMode = () => {
@@ -65,8 +65,12 @@ export default function Home() {
             </div>
         </form>
         </div>
-        <section className='container mx-auto pt-16'>
-          <Content data={data[0]}/>
+        <section className='container mx-auto pt-8'>
+          {data.map(((item, index) => {
+            return (
+              <Content data={item} index={index} length={data.length}/>
+            )
+          }))}
         </section>
       </main>
     </>
