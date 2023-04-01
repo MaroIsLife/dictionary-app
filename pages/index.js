@@ -41,6 +41,7 @@ export default function Home() {
         return;
       }
       setWord('');
+      setData([]);
       setError({ type: 0, error: false })
       const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
       setData(response.data);
